@@ -1,268 +1,354 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure PDS Biometric with Authentication - Üretim Kontrol</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
-    <style>
-        /* Modern Dark Mode & Futuristik Flat Stiller */
-        :root {
-            --color-primary: #00ffff; /* Neon Mavi/Siyan (Vurgu 1) */
-            --color-secondary: #00ff00; /* Neon Yeşil (Vurgu 2 - Onay/Başarı) */
-            --color-bg-dark: #0f172a; /* Zemin Siyah/Lacivert */
-            --color-bg-card: #1e293b; /* Kart Arka Planı */
-            --color-text-light: #f1f5f9; /* Açık Metin */
-            --color-text-muted: #94a3b8; /* Soluk Metin */
-            --color-border: #334155; /* Sınır Çizgisi */
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--color-bg-dark);
-            color: var(--color-text-light);
-            scroll-behavior: smooth;
-        }
+import React from 'react';
+import { Target, Cpu, Search, Mail, Layout, BarChart2, Shield, Globe, Users, Clock, Database, CheckCircle, Lock, Calendar, Table, Linkedin, AlertTriangle, CheckSquare, ChevronRight, Zap, TrendingUp, Award, MessageSquare } from 'lucide-react';
 
-        /* Başlık Fontu: Daha futuristik bir dokunuş için */
-        .futuristic-title {
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 0.05em;
-        }
+// --- UI COMPONENTS ---
 
-        /* Navigasyon Stilleri */
-        .nav-link {
-            border-left: 4px solid transparent;
-            color: var(--color-text-light);
-        }
-        .nav-link.active-scene-link {
-            background-color: #1e293b; /* Kart Arka Planı rengi */
-            border-left-color: var(--color-secondary) !important;
-            font-weight: 600;
-        }
-        .nav-link:hover {
-             background-color: #1e293b;
-             border-left-color: var(--color-primary);
-        }
+const CanvasCard = ({ title, icon: Icon, children, className = "", variant = "default" }) => {
+  const variants = {
+    default: "bg-white border-gray-100 hover:border-gray-200",
+    highlight: "bg-gradient-to-br from-white to-red-50/50 border-red-100 hover:border-red-200",
+    success: "bg-gradient-to-br from-white to-emerald-50/50 border-emerald-100 hover:border-emerald-200",
+    blue: "bg-gradient-to-br from-white to-blue-50/50 border-blue-100 hover:border-blue-200",
+    dark: "bg-slate-900 text-white border-slate-800"
+  };
 
-        /* Responsive ve Sabit Navigasyon */
-        @media (min-width: 1024px) {
-            #scene-navigation {
-                position: sticky;
-                top: 1rem;
-                height: calc(100vh - 2rem);
-                overflow-y: auto;
-            }
-        }
-        
-        /* Kart ve Alan Stilleri */
-        .flat-icon {
-            font-size: 1.25rem; /* İkon boyutu */
-            line-height: 1;
-        }
-        .scene-icon {
-            color: var(--color-primary);
-        }
-        .scene-icon.active {
-            color: var(--color-secondary);
-        }
-        .scene-card {
-            border-left: 5px solid var(--color-primary);
-            background-color: var(--color-bg-card); /* Koyu kart */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
-        }
-        .storyboard-area {
-            border: 1px solid var(--color-border);
-            background-color: #0f172a; /* Zemin rengi ile kontrast */
-        }
-    </style>
-    
-    <script>
-        // --- Türkçe Senaryo Verisi ---
-        const data = {
-            main_title: "Secure PDS Biometric with Authentication",
-            subtitle: "ÜRETİM KONTROL PANELİ | ONES & BIOAFFIX",
-            menu_title: "MİSYON AKIŞI",
-            content_title: "SENARYO KONTROL VE REVİZYON",
-            metin_title: "METİN & İÇERİK:",
-            gorsel_title: "GÖRSEL NOT (STORYBOARD):",
-            sure_title: "Önerilen Süre: 3.5 - 4.5 sn",
-            segment_prefix: "SEGMENT",
-            scenes: [
-                { id: 1, title: 'Giriş: Küresel Yetkinlik (ONES Tech)', description: 'Dünya haritası üzerinde parlayan çeşitli uluslararası proje noktaları gösterilir. Büyük bir metin belirir: "ONES Technology: Global Güvenlik Çözümleri. Kanıtlanmış Biyometrik Entegrasyon Uzmanlığı." Bu, Irak projesi için güçlü bir temel oluşturur.', storyboard: '3D, fütüristik dünya haritası üzerinde mavi ve yeşil ışıklarla parlayan, aktif proje bölgelerini gösteren bağlantı noktaları. Kamera haritadan Irak/Orta Doğu bölgesine doğru zoom yapar.' },
-                { id: 2, title: 'Açılış: Dijitalleşme Başlangıcı', description: 'Foodstuff Genel Şirketi\'nin binası gösterilir. Binadan yayılan "ORDER" yazılı matbu evraklar, havaya dağılır ve kaybolmadan önce dijital bir akıma dönüşür. Bu, eski kağıt sisteminin yerini dijital güvenliğe bırakışını simgeler.', storyboard: 'Foodstuff\'ın modern binasının havadan görünümü. Binadan çıkan **"ORDER" yazılı evraklar** dijital veri akışına dönüşür. Kaybolma yerine, düzenli bir sisteme (dijitalize evrak) geçiş vurgulanır.' },
-                { id: 3, title: 'Food Distribution Programı (PDS) Analizi', description: 'Foodstuff\'ın büyüklüğü pozitif verilerle vurgulanır: "Irak PDS: Dünyanın En Kapsamlı Gıda Dağıtım Programı. Yıllık Harcama: 5 Milyar USD +". Vurgu: "Bu büyük ölçekli altyapı, %100 kesinlik ve teknolojik bir yönetim sistemi gerektirir."', storyboard: 'Foodstuff logosu ve Irak haritası üzerinde parlayan "5 Milyar USD +" yazısı. Harcanan paranın büyüklüğü ve programın önemi, yeşil ve güven veren grafiklerle görselleştirilir.' },
-                { id: 4, title: 'Çözüm Aktivasyonu: Secure PDS', description: 'Veri akışının ortasında parlak, yeşil bir ışık parlar ve "Secure PDS Biometric Authentication" simgesi ortaya çıkar. ONES Technology ve BioAffix markaları birleşir. Ses: Sistemin başlatılması.', storyboard: 'Kaostan, ONES ve BioAffix logolarının yeşil bir enerji dalgasıyla birleştiği, temiz, keskin bir logo animasyonu çıkar. Tüm ekranı kaplayan güven hissi.' },
-                { id: 5, title: 'Tedarik Girişi (Liman)', description: 'Güneşli bir deniz kıyısında büyük bir kargo gemisi limana yanaşır. Konteynerlerdeki ürünler (**Şeker, Pirinç, Bakliyat, Domates Salçası, Ayçiçek Yağı, Süt Tozu, Çay**) indirilir. Ürün listesi ekranda dinamik olarak görünür.', storyboard: 'Deniz kenarındaki modern bir liman. Yüklenen konteynerlerin içindeki Şeker, Pirinç, Süt Tozu gibi gıdaların listesi dinamik bir arayüzde gösterilir.' },
-                { id: 6, title: 'Mobil Otantikasyon: Liman Personeli Kontrolü', description: 'Food Staff Company personeli, **BioAffix Vision Mobile** cihazıyla öncelikle **kimlik kartını taratır**, ardından **yüz taraması** yaparak biyometrik kimliğini doğrular. Ekranda yeşil onay kodu belirir. "Personel Doğrulaması Başarılı." mesajı.', storyboard: 'Yakın çekim: Food Staff personeli önce kimlik kartını BioAffix mobil cihaza okutur, ardından cihaza bakar (yüz taraması). Yeşil onay animasyonu belirir.' },
-                { id: 7, title: 'Dijital İrsaliye Gönderimi', description: 'Doğrulamanın ardından, dijital irsaliye formu (Order) görünür. "Belgeler Dijital Ortama Aktarıldı. Elektronik Envanter Takip Sistemi (EETS) Aktif." vurgusu.', storyboard: 'Mobil cihaz ekranından zoom out. Ekran, yeni Order formunun dijital olarak oluşturulduğunu ve anında EETS\'ye aktarıldığını gösterir.' },
-                { id: 8, title: 'Taşıma Vektörünün Oluşturulması', description: 'Yüklü kamyonlar limandan ayrılır. Kamyonlar ve rota bilgileri, merkezi kontrol birimi tarafından belirlenen **dağıtım noktalarına iletilir.**', storyboard: 'Liman çıkış kapısından ayrılan kamyonlar dizisi. Kamyonların rota bilgilerinin merkezi bir harita/izleme ekranına entegre edildiği ve belirlenen noktalara yönlendirildiği görselleştirilir.' },
-                { id: 9, title: 'Ana Dağıtım İstasyonu', description: 'Kamyon konvoyu, modern ve organize bir merkezi dağıtım deposuna (İstasyon) ulaşır. Tesisin verimli ve teknolojik altyapısı vurgulanır.', storyboard: 'Geniş bir açı: Kamyon konvoyunun, temiz ve büyük bir ana depolama tesisine (İstasyon) ulaştığı görseli. Deponun düzenli ve organize yapısı vurgulanır.' },
-                { id: 10, title: 'Merkezi Yönetim (MYS) İşleme', description: 'Kontrol odasındaki büyük ekranda, MYS yazılım arayüzü görünür. "Merkezi Yönetim Sistemi (MYS) ile Vekillere Yönlendirilecek Ürün Miktarları Onaylanıyor. Optimizasyon Hesaplandı."', storyboard: 'Kontrol odasındaki personelin önündeki MYS ekranında, farklı vekil bölgelerine tahsis edilen ürün miktarları yeşil onay tuşlarıyla belirir.' },
-                { id: 11, title: 'Güvenli Sevkiyat: Food Staff Personeli Onayı', description: 'Kamyon şoförü ve Food Staff Company sevkiyat memuru, BioAffix cihazına önce **kimlik kartlarını taratır**, sonra **yüz taraması** ile kimliklerini doğrular. İki faktörlü onay sonrası kamyon yola çıkar.', storyboard: 'Kamyon kabininde, şoför ve memurun sırayla önce kimlik kartlarını okuttuğu, sonra yüz taraması yaptığı yakın çekim. Yeşil kilit animasyonu ile sevkiyat onayı.' },
-                { id: 12, title: 'Vekil Terminaline Giriş', description: 'Kamyon, dar ve canlı şehir sokaklarından geçerek yerel bir vekil noktasına (Dağıtım Terminali) ulaşır. Kentsel doku ile teknolojinin buluşması.', storyboard: 'Kamyonun geleneksel bir pazar yeri veya mahalle içindeki küçük bir vekil deposuna (market) yaklaştığı dış mekan çekimi. Geleneksel Irak mimarisi fon olarak kullanılır.' },
-                { id: 13, title: 'Veri Senkronizasyonu (Teslimat Anı)', description: 'Şoför ve vekil, el cihazlarıyla **kimlik kartı taraması ve biyometrik yüz taraması** yaparak doğrulama yapar. Kimlik, lokasyon, saat ve teslim edilen miktar bilgisi anında MYS\'ye aktarılır.', storyboard: 'Yakın çekim: Vekil ve şoförün biyometrik olarak el cihazlarıyla doğrulanması. Cihazlardan çıkan veri paketlerinin MYS sunucusuna ışınlandığı dinamik bir ağ animasyonu.' },
-                { id: 14, title: 'Vekil Envanter Artışı', description: 'Vekil, BioAffix cihazına **kimlik kartı taraması ve yüz taraması** yaparak teslimatı kabul eder. Bu onay ile, gelen ürün miktarı otomatik olarak **merkezden vekil stoğuna eklenir.** "Stok Artışı Merkezden Anlık İzleniyor" uyarısı. Stok seviyesi grafiği yükselir.', storyboard: 'Vekilin cihazı kullanarak kimliğini doğrulaması (yüz taraması). Merkezdeki MYS ekranında vekilin stok miktarının hızla yükseldiğini gösteren yeşil bir grafik animasyonu.' },
-                { id: 15, title: 'Vatandaş Hazırlık (SMS)', description: 'Vatandaşın elindeki akıllı telefona Food Staff Company\'den bir SMS bildirimi gelir: "Gıda yardım paketiniz Vekil Noktasında hazır." Vatandaşın yüzündeki heyecan.', storyboard: 'Vatandaşın elindeki telefona gelen Arapça SMS bildirimi. Vatandaşın yüzünde tebessüm belirir.' },
-                { id: 16, title: 'Vatandaş Kimlik Doğrulaması', description: 'Vatandaş, BioAffix cihazına **kimlik kartını taratır**. Ekranda, tüm aile üyelerinin (hak sahipleri) bilgileri belirir. **MYS, Nüfus Verileri ile anlık çapraz kontrol yaparak yurt dışında olan veya vefat eden bireyleri listeden düşer ve dağıtım miktarını yalnızca mevcut hak sahipleri için otomatik olarak hesaplar.**', storyboard: 'Vatandaşın kimlik kartını BioAffix cihazına okuttuğu an. Cihazın ekranında ailenin tüm üyelerinin tahsis bilgileri pop-up şeklinde görünür; yurt dışında olan bireylerin isimlerinin yanında kırmızı bir "DÜŞÜLDÜ / EXCLUDED" işareti belirir.' },
-                { id: 17, title: 'Doğru Alokasyon ve Teslimat', description: 'Sistem onayı sonrası vekil, tahsis edilen ürünleri (**Şeker, Pirinç, Bakliyat, Domates Salçası, Ayçiçek Yağı, Süt Tozu, Çay** vb.) vatandaşa teslim eder. Vatandaşın yüzündeki memnuniyet. **Görev Tamamlandı.**', storyboard: 'Vekil, vatandaşa (örneğin Domates Salçası kutusu) teslim ederken samimi bir gülümseme. Memnuniyetin ve görevin tamamlandığının net vurgusu.' },
-                { id: 18, title: 'Vatandaş Biyometrik Onayı', description: 'Vatandaş, **yüz taraması** ile teslimatı bizzat onaylar. "Vatandaş, Teslimatı Yüz Taraması ile Onayladı. **GÖREV TAMAMLANDI**." Şeffaflık maksimumda.', storyboard: 'Yakın çekim: Vatandaşın yüzünü BioAffix cihazına tarattığı an. Ekranda büyük, yeşil bir onay işareti belirir. "**GÖREV TAMAMLANDI**" yazısı belirir.' },
-                { id: 19, title: 'İşlem Tamam: Stok Azalması', description: 'Vatandaş depodan ayrılırken, sistem otomatik olarak vekilin stoğundan dağıtılan miktarı düşer. Vekil Envanter Takip ekranında stok seviyesi düşüşü görülür. Vatandaş Memnuniyet Düzeyi (VMD) sinyali yükselir.', storyboard: 'Vekil Envanter ekranında dağıtılan ürünlerin stoktan düştüğünü gösteren bir animasyon. VMD barının hızla yeşile yükseldiği görülür.' },
-                { id: 20, title: 'Memnuniyet Dalgası (Toplumsal Etki)', description: 'Sistemin sorunsuz çalışması sonucu **mutlulukla gülümseyen vatandaşlar** gösterilir. Vatandaşlar, güvenle aldıkları erzakları evlerine taşırlar. Güven ve huzur teması vurgulanır.', storyboard: 'Çeşitli açılardan, erzak paketlerini veya ürünlerini taşıyan, yüzleri gülen mutlu vatandaşların yer aldığı dinamik sahneler. Geleneksel sokak dokusu fon olarak kullanılır.' },
-                { id: 21, title: 'Ekip Birleşimi: Koruyucular', description: 'Projenin tüm Food Staff personelleri ve paydaşları (Liman memuru, şoför, vekil, vatandaş) bir araya gelir. Hepsi Irak\'ın finansal servetini ve halkın güvenini korudukları için gururlu bir duruş sergiler.', storyboard: 'Farklı görevlerdeki tüm kilit figürlerin (memur, şoför, vekil, vatandaş) yan yana durduğu, gururlu bir ekip fotoğrafı karesi.' },
-                { id: 22, title: 'Merkezi Entegrasyon Matrisi', description: 'MYS\'nin tüm BioAffix cihazlarından (Liman, Depo, Vekil) gelen **lojistik verileri** ile NVİ ve İçişleri Bakanlığı\'ndan gelen **nüfus verilerini** tek bir **Sistem Sağlık Paneli** üzerinde anlık olarak eşleştirerek gösterilir. Food Staff Company\'nin tam kontrolü vurgulanır.', storyboard: 'Merkezi MYS ekranında, solda lojistik (stok, teslimat, konum) verileri, sağda nüfus (hak sahipliği, yurtdışı kontrol) verileri yer alır. Ortadaki yeşil bir köprü, bu iki veri kümesinin anlık olarak eşleştiğini ve sistemin sağlıklı çalıştığını gösterir.' },
-                { id: 23, title: 'Finansal Geri Kazanım', description: 'Daha önce risk altında olan finansal kaynaklar, bu kez **Foodstuff Organization kasasına** güvenle aktarılırken gösterilir. "Yeni Sistem Yüz Milyonlarca Dolar Tasarruf ve Geri Kazanım Sağlıyor" metni yeşil renkte yanıp söner.', storyboard: 'Para akışının Foodstuff Organization kasasına hızla ve güvenle aktığı animasyon. Kasanın üzerinde büyük, yeşil harflerle "TASARRUF & GERİ KAZANIM: Yüz Milyonlarca Dolar" yazar.' },
-                { id: 24, title: 'Final Kodlama: Marka Tanıtımı', description: 'Ekran, koyu bir arayüzde merkezlenir. ONES Technology ve BioAffix logoları, parlak bir etkiyle belirir. Slogan: "Secure Delivery, Prosperous Tables - Teknoloji ile Güven İnşa Ediyoruz."', storyboard: 'Siyah bir fona karşı, ONES Technology ve BioAffix logolarının parlak efektlerle belirginleştiği şık bir logo animasyonu. Slogan, logoların altında net ve vurgulu bir şekilde ortaya çıkar.' },
-                { id: 25, title: 'Kapanış Protokolü ve İletişim', description: 'Logoların altında iletişim kanalları belirir. Arka planda yavaşça hareket eden dijital ağ hatları animasyonu ile sunum sonlanır.', storyboard: 'Ekranın ortasında logolar ve iletişim bilgileri. Arka planda yavaşça hareket eden siber çizgiler ve data akışları.' }
-            ]
-        };
-        
-        // --- Uygulama Mantığı (Statik) ---
-        
-        function renderContent() {
-            const scenesData = data.scenes;
-            
-            // Header ve başlıkları güvenli atama ile güncelle
-            const mainTitleEl = document.getElementById('main-title');
-            if (mainTitleEl) mainTitleEl.textContent = data.main_title;
+  const iconColors = {
+    default: "text-red-600 bg-red-50",
+    highlight: "text-red-700 bg-white shadow-sm",
+    success: "text-emerald-600 bg-white shadow-sm",
+    blue: "text-blue-600 bg-white shadow-sm",
+    dark: "text-red-500 bg-slate-800"
+  };
 
-            const subtitleEl = document.getElementById('subtitle');
-            if (subtitleEl) subtitleEl.textContent = data.subtitle;
-            
-            const menuTitleEl = document.getElementById('menu-title');
-            if (menuTitleEl) menuTitleEl.textContent = data.menu_title;
-            
-            const contentTitleEl = document.getElementById('content-title');
-            if (contentTitleEl) contentTitleEl.textContent = data.content_title;
-            
-            const navigation = document.getElementById('scene-navigation')?.querySelector('ul');
-            const detailsContainer = document.getElementById('scene-details');
+  return (
+    <div className={`
+      relative p-5 rounded-3xl border shadow-sm transition-all duration-300 
+      hover:shadow-xl hover:shadow-gray-200/50 hover:-translate-y-1 
+      flex flex-col h-full group
+      ${variants[variant] || variants.default} 
+      ${className}
+    `}>
+      <div className="flex items-center gap-3 mb-4">
+        <div className={`p-2 rounded-xl ${iconColors[variant] || iconColors.default} transition-colors`}>
+          <Icon className="w-5 h-5" strokeWidth={2.5} />
+        </div>
+        <h3 className={`font-bold uppercase text-xs tracking-widest ${variant === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
+          {title}
+        </h3>
+      </div>
+      <div className={`text-sm leading-relaxed flex-grow space-y-3 ${variant === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+        {children}
+      </div>
+    </div>
+  );
+};
 
-            if (!navigation || !detailsContainer) return;
+const BulletPoint = ({ text, highlight = false }) => (
+  <div className="flex items-start gap-3 group/item">
+    <div className={`
+      w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 transition-all duration-300
+      ${highlight ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]' : 'bg-red-500 group-hover/item:scale-125'}
+    `}></div>
+    <span className={`text-xs leading-relaxed ${highlight ? 'font-semibold text-gray-800' : 'text-gray-600'}`}>{text}</span>
+  </div>
+);
 
-            // Navigasyon (MİSYON AKIŞI) içeriğini doldur
-            navigation.innerHTML = scenesData.map(scene => `
-                <li>
-                    <a href="#scene-${scene.id}" data-scene-id="${scene.id}" class="nav-link scene-link flex items-center p-3 rounded-lg transition-all duration-300 border-l-4 border-transparent">
-                        <span class="mr-3 flat-icon scene-icon"></span>
-                        <span class="font-medium text-sm">${scene.id}. ${scene.title}</span>
-                    </a>
-                </li>
-            `).join('');
+const ComparisonCard = ({ category, oldSys, newSys, oldDesc, newDesc }) => (
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-0 rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+    <div className="bg-slate-50 p-4 border-b md:border-b-0 md:border-r border-gray-100 relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-1 h-full bg-gray-200"></div>
+      <div className="flex items-center gap-2 mb-2">
+        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-gray-200 text-gray-600 uppercase tracking-wide">Eski</span>
+        <h4 className="font-bold text-gray-700 text-xs">{category}</h4>
+      </div>
+      <div className="text-gray-900 font-bold text-sm mb-1 line-through decoration-red-400 decoration-2 opacity-70">{oldSys}</div>
+      <p className="text-[10px] text-gray-500 leading-snug">{oldDesc}</p>
+    </div>
+    <div className="bg-white p-4 relative overflow-hidden group">
+      <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.4)]"></div>
+      <div className="flex items-center gap-2 mb-2">
+         <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-700 uppercase tracking-wide flex items-center gap-1">
+           <Zap size={10} fill="currentColor" /> Yeni
+         </span>
+      </div>
+      <div className="text-gray-900 font-bold text-sm mb-1">{newSys}</div>
+      <p className="text-[10px] text-emerald-900/70 leading-snug">{newDesc}</p>
+    </div>
+  </div>
+);
 
-            // Detaylar (SENARYO KONTROL) içeriğini doldur
-            detailsContainer.innerHTML = scenesData.map(scene => `
-                <section id="scene-${scene.id}" class="scene-card p-6 rounded-lg shadow-xl mb-8">
-                    <div class="flex items-center justify-between border-b border-gray-700 pb-3 mb-4">
-                        <h3 class="text-xl md:text-2xl font-bold text-[var(--color-primary)] futuristic-title flex items-center">
-                            <span class="mr-3 flat-icon scene-icon"></span>
-                            ${data.segment_prefix.toUpperCase()} ${scene.id}: ${scene.title.toUpperCase()}
-                        </h3>
-                        <span class="text-xs text-gray-400">${data.sure_title}</span>
-                    </div>
-                    
-                    <div class="description-area mb-6">
-                        <h4 class="font-semibold text-gray-300 mb-1 border-b border-gray-700">${data.metin_title}</h4>
-                        <p class="text-gray-400 text-base leading-relaxed pl-2">${scene.description}</p>
-                    </div>
+// Yeni Grafik Bileşeni: Basit Bar Chart
+const SimpleBarChart = ({ label, value, max, color = "bg-red-500" }) => (
+  <div className="mb-3">
+    <div className="flex justify-between text-[10px] uppercase font-bold text-gray-500 mb-1">
+      <span>{label}</span>
+      <span>{value}%</span>
+    </div>
+    <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+      <div className={`h-full rounded-full ${color} transition-all duration-1000`} style={{ width: `${(value / max) * 100}%` }}></div>
+    </div>
+  </div>
+);
 
-                    <div class="storyboard-area p-4 rounded-lg mb-6">
-                        <h4 class="font-semibold text-gray-300 mb-1 border-b border-gray-700">${data.gorsel_title}</h4>
-                        <p class="text-sm text-gray-400 pl-2">${scene.storyboard}</p>
-                    </div>
-                </section>
-            `).join('');
+// Yeni SWOT Kutusu
+const SwotBox = ({ label, items, type }) => {
+  const styles = {
+    S: "bg-emerald-50 border-emerald-100 text-emerald-800",
+    W: "bg-red-50 border-red-100 text-red-800",
+    O: "bg-blue-50 border-blue-100 text-blue-800",
+    T: "bg-amber-50 border-amber-100 text-amber-800"
+  };
+  return (
+    <div className={`p-3 rounded-xl border ${styles[type]} h-full`}>
+      <div className="font-black text-xs mb-2 flex items-center gap-1 opacity-80">
+        <span className="text-base">{type}</span> {label}
+      </div>
+      <ul className="space-y-1">
+        {items.map((item, i) => (
+          <li key={i} className="text-[10px] font-medium leading-tight flex items-start gap-1">
+            <span className="mt-0.5">•</span> {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
-            setInitialState(); // İçerik güncellendikten sonra aktif linki ayarla
-        }
-
-        function handleNavigation(e) {
-            e.preventDefault();
-            const link = e.target.closest('.scene-link');
-            if (!link) return;
-
-            const sceneId = link.dataset.sceneId;
-            const targetScene = document.getElementById(`scene-${sceneId}`);
-
-            if (targetScene) {
-                targetScene.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                history.replaceState(null, '', `#scene-${sceneId}`);
-                updateActiveLink(sceneId);
-            }
-        }
-        
-        function updateActiveLink(sceneId) {
-             document.querySelectorAll('.scene-link').forEach(l => {
-                const isActive = l.dataset.sceneId === sceneId;
-                l.classList.toggle('active-scene-link', isActive);
-            });
-        }
-
-        function setInitialState() {
-            const hash = window.location.hash;
-            if (hash && hash.startsWith('#scene-')) {
-                const sceneId = hash.replace('#scene-', '');
-                updateActiveLink(sceneId);
-            } else if (data.scenes.length > 0) {
-                 updateActiveLink(data.scenes[0].id.toString());
-            }
-        }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            renderContent();
-            
-            const navigationElement = document.getElementById('scene-navigation')?.querySelector('ul');
-            
-            if (navigationElement) {
-                navigationElement.addEventListener('click', handleNavigation);
-            }
-            
-            // Scroll tabanlı aktif link güncellemesi (Intersection Observer)
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const sceneId = entry.target.id.split('-')[1];
-                        updateActiveLink(sceneId);
-                    }
-                });
-            }, { rootMargin: "-30% 0px -70% 0px", threshold: 0 }); 
-
-            document.querySelectorAll('.scene-card').forEach(card => {
-                observer.observe(card);
-            });
-        });
-    </script>
-</head>
-<body class="min-h-screen">
-    
-    <header class="bg-gray-900 text-white p-4 shadow-2xl sticky top-0 z-10">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <h1 id="main-title" class="text-xl md:text-2xl font-bold text-[var(--color-secondary)] futuristic-title">Secure PDS Biometric with Authentication</h1>
-            <div class="flex items-center space-x-4">
-                <span id="subtitle" class="text-sm font-light text-gray-400 hidden sm:block">ÜRETİM KONTROL PANELİ | ONES & BIOAFFIX</span>
+const VegaTrailerCanvas = () => {
+  return (
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-800 font-sans p-4 md:p-8 selection:bg-red-100 selection:text-red-900">
+      
+      {/* HEADER */}
+      <div className="max-w-7xl mx-auto mb-8">
+        <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden">
+          <div className="flex items-center gap-6 z-10">
+            <div className="w-16 h-16 bg-red-700 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-red-700/30">
+              <span className="font-black text-2xl tracking-tighter">V</span>
             </div>
+            <div>
+              <h1 className="text-3xl font-black text-slate-900 tracking-tight">VEGA TRAILER</h1>
+              <div className="flex items-center gap-2 mt-1 text-slate-500 font-medium">
+                <span>Kurumsal Dönüşüm & Marka Entegrasyonu</span>
+                <span className="w-1 h-1 rounded-full bg-slate-300"></span>
+                <span className="text-red-600 font-semibold">2026 Stratejik Planı</span>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 bg-slate-50 px-5 py-3 rounded-2xl border border-slate-100 z-10">
+            <div className="text-right">
+              <div className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Proje Yöneticisi</div>
+              <div className="font-bold text-slate-800 text-lg">Semanur Ayyıldız</div>
+            </div>
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-red-600 to-orange-500 flex items-center justify-center text-white font-bold shadow-md">SA</div>
+          </div>
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 z-0"></div>
         </div>
-    </header>
+      </div>
 
-    <main class="max-w-6xl mx-auto px-4 py-4 lg:flex lg:space-x-8">
+      {/* MAIN GRID */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-5 auto-rows-auto">
 
-        <!-- Sol Menü: MİSYON AKIŞI (Navigasyon) -->
-        <nav id="scene-navigation" class="w-full lg:w-1/4 mb-4 lg:mb-0 bg-gray-900 shadow-2xl rounded-lg p-4">
-            <h2 id="menu-title" class="text-lg font-bold text-[var(--color-primary)] border-b border-gray-700 pb-2 mb-4 futuristic-title">MİSYON AKIŞI</h2>
-            <ul class="space-y-1">
-                <!-- Navigasyon JS ile doldurulacak -->
-            </ul>
-        </nav>
+        {/* --- KOLON 1: Vizyon & Dil (Sol) --- */}
+        <div className="md:col-span-3 flex flex-col gap-5">
+          <CanvasCard title="Stratejik Vizyon" icon={Target} variant="highlight">
+            <p className="font-medium text-slate-900 italic border-l-2 border-red-500 pl-3 mb-3">
+              "40 yıllık endüstriyel mirası, modern teknolojinin diliyle dünyaya anlatmak."
+            </p>
+            <BulletPoint text="Global Güven İnşası: Avrupa pazarında 'Premium Partner' algısını yerleştirmek." />
+            <BulletPoint text="Sürdürülebilir İmaj: Zamandan bağımsız, tutarlı bir kurumsal kimlik." />
+          </CanvasCard>
 
-        <!-- Sağ İçerik: SENARYO KONTROL (Detaylar ve Notlar) -->
-        <div id="scene-details" class="w-full lg:w-3/4">
-            <h2 id="content-title" class="text-2xl font-bold text-[var(--color-primary)] mb-6 futuristic-title">SENARYO KONTROL VE REVİZYON</h2>
-            <!-- Detaylar JS ile doldurulacak -->
+          <CanvasCard title="Kurumsal Dil & Bütünlük" icon={MessageSquare} variant="blue">
+             <div className="text-xs text-gray-500 mb-2 font-medium">TONE OF VOICE (MARKA SESİ)</div>
+             <BulletPoint text="Tek Seslilik: Web sitesinden e-posta imzasına kadar %100 uyumlu hitabet." />
+             <BulletPoint text="Terminoloji Birliği: 7 dildeki teknik çevirilerin (Lowbed, Tiefbett vb.) standardizasyonu." />
+             <BulletPoint text="Profesyonel Nezaket: Müşteri yazışmalarında kullanılacak standart şablonlar." />
+          </CanvasCard>
+
+           <CanvasCard title="Dijital Sağlık Skoru" icon={TrendingUp}>
+             <div className="mt-2">
+               <SimpleBarChart label="Mevcut Durum" value={35} max={100} color="bg-gray-400" />
+               <SimpleBarChart label="Hedeflenen (6 Hafta)" value={92} max={100} color="bg-emerald-500" />
+               <p className="text-[10px] text-gray-400 mt-2 italic text-center">Google Core Web Vitals & SEO Skoru</p>
+             </div>
+          </CanvasCard>
         </div>
 
-    </main>
+        {/* --- KOLON 2: Ana İçerik & Analiz (Orta) --- */}
+        <div className="md:col-span-6 flex flex-col gap-5">
+          
+          {/* Mülkiyet Kartı */}
+          <CanvasCard title="Tam Mülkiyet Garantisi" icon={Lock} variant="success" className="bg-gradient-to-r from-emerald-50 to-white">
+             <div className="flex flex-col md:flex-row gap-4 items-center">
+                <div className="flex-1">
+                   <p className="text-sm font-medium text-emerald-900 mb-3">
+                     Semanur Ayyıldız sistemi kurar, anahtarı müşteriye teslim eder. Bağlayıcılık yoktur, tam özgürlük vardır.
+                   </p>
+                   <div className="grid grid-cols-2 gap-3">
+                      <div className="bg-white p-2 rounded-lg border border-emerald-100 shadow-sm">
+                         <span className="text-[10px] font-bold text-emerald-600 uppercase block">Reseller Hesabı</span>
+                         <span className="text-xs font-bold text-slate-700">Vega Trailer Adına</span>
+                      </div>
+                      <div className="bg-white p-2 rounded-lg border border-emerald-100 shadow-sm">
+                         <span className="text-[10px] font-bold text-emerald-600 uppercase block">Yönetici Yetkisi</span>
+                         <span className="text-xs font-bold text-slate-700">Firma Sahibinde</span>
+                      </div>
+                   </div>
+                </div>
+                <Shield className="w-12 h-12 text-emerald-200 hidden md:block" />
+             </div>
+          </CanvasCard>
 
-</body>
-</html>
+          {/* SWOT ANALİZİ */}
+          <div className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm">
+            <div className="flex items-center gap-2 mb-4 border-b border-gray-100 pb-3">
+              <BarChart2 className="w-5 h-5 text-indigo-600" />
+              <h3 className="font-bold text-gray-800 uppercase text-xs tracking-widest">Dijital SWOT Analizi</h3>
+            </div>
+            <div className="grid grid-cols-2 gap-3 h-64">
+              <SwotBox type="S" label="GÜÇLÜ YÖNLER (Strengths)" items={["40+ Yıllık Üretim Tecrübesi", "VDI Sertifikalı Ürün Gamı", "Güçlü İhracat Kapasitesi", "Yerleşik Fiziksel Marka Bilinirliği"]} />
+              <SwotBox type="W" label="ZAYIF YÖNLER (Weaknesses)" items={["Dağınık Dijital Varlıklar", "Eski Teknoloji Web Sitesi", "Standartlaşmamış Kurumsal İletişim", "Pasif Sosyal Medya Kullanımı"]} />
+              <SwotBox type="O" label="FIRSATLAR (Opportunities)" items={["LinkedIn Üzerinden B2B Satış", "Yapay Zeka Aramalarında Öne Çıkma", "Gelişmekte Olan Pazarlar (Afrika/Asya)", "Online Katalog ile Hızlı Teklif"]} />
+              <SwotBox type="T" label="TEHDİTLER (Threats)" items={["Rakiplerin Dijital Agresifliği", "Siber Güvenlik / Spam Riskleri", "Veri Kaybı (Yedekleme Eksikliği)", "Global Ekonomik Durgunluk"]} />
+            </div>
+          </div>
+
+          {/* GLOBAL COMPETITOR GAP ANALYSIS (YENİ EKLENEN KISIM) */}
+          <CanvasCard title="Global Rekabet GAP Analizi" icon={Globe}>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="border-b border-gray-100 text-gray-400 font-bold uppercase tracking-wider text-[10px]">
+                    <th className="pb-3 pl-2">Kriter</th>
+                    <th className="pb-3 text-gray-800">Global Rakipler (AB)</th>
+                    <th className="pb-3 text-red-400">Vega (Mevcut)</th>
+                    <th className="pb-3 text-emerald-600">Vega (Hedef 2026)</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-50 text-[11px]">
+                  <tr className="group hover:bg-gray-50 transition-colors">
+                    <td className="py-3 pl-2 font-bold text-slate-700">Dijital Showroom</td>
+                    <td className="py-3 text-gray-600">360° Görünüm & Video</td>
+                    <td className="py-3 text-red-400 font-medium">Statik Resimler</td>
+                    <td className="py-3 text-emerald-600 font-bold">Video Katalog</td>
+                  </tr>
+                  <tr className="group hover:bg-gray-50 transition-colors">
+                    <td className="py-3 pl-2 font-bold text-slate-700">Teklif Süreci</td>
+                    <td className="py-3 text-gray-600">Online Konfigüratör</td>
+                    <td className="py-3 text-red-400 font-medium">Manuel (Whatsapp/Mail)</td>
+                    <td className="py-3 text-emerald-600 font-bold">Hızlı Teklif Modülü</td>
+                  </tr>
+                  <tr className="group hover:bg-gray-50 transition-colors">
+                    <td className="py-3 pl-2 font-bold text-slate-700">SEO Varlığı</td>
+                    <td className="py-3 text-gray-600">İlk Sayfa Otoritesi</td>
+                    <td className="py-3 text-red-400 font-medium">Düşük Görünürlük</td>
+                    <td className="py-3 text-emerald-600 font-bold">AI & GEO Liderliği</td>
+                  </tr>
+                   <tr className="group hover:bg-gray-50 transition-colors">
+                    <td className="py-3 pl-2 font-bold text-slate-700">B2B Ağ (LinkedIn)</td>
+                    <td className="py-3 text-gray-600">Aktif Satış Kanalı</td>
+                    <td className="py-3 text-red-400 font-medium">Pasif/Bireysel</td>
+                    <td className="py-3 text-emerald-600 font-bold">Kurumsal Elçilik</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </CanvasCard>
+
+          {/* Kıyaslama Tablosu */}
+          <div className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm flex flex-col gap-4">
+             <div className="flex items-center gap-2 border-b border-gray-100 pb-3">
+                <Table className="w-5 h-5 text-red-600" />
+                <h3 className="font-bold text-gray-800 uppercase text-xs tracking-widest">Sistem Dönüşüm Tablosu</h3>
+             </div>
+             <div className="space-y-3">
+                <ComparisonCard 
+                   category="E-Posta Güvenliği" 
+                   oldSys="Standart Hosting Mail" 
+                   newSys="Google Workspace" 
+                   oldDesc="Yüksek spam riski, güvenilmez IP, veri kaybı ihtimali." 
+                   newDesc="%99.9 Uptime, AI destekli spam koruması, yasal arşivleme." 
+                />
+                 <ComparisonCard 
+                   category="Marka Tutarlılığı" 
+                   oldSys="Kişisel İnisiyatifler" 
+                   newSys="Merkezi Yönetim" 
+                   oldDesc="Her çalışanın imzası ve iletişim dili farklı, dağınık görüntü." 
+                   newDesc="HTML kodlu sabit imzalar, tek tip kurumsal dil ve profil." 
+                />
+             </div>
+          </div>
+        </div>
+
+        {/* --- KOLON 3: Teknik & Hedefler (Sağ) --- */}
+        <div className="md:col-span-3 flex flex-col gap-5">
+          
+          <CanvasCard title="Dijital İhracat Stratejisi" icon={Linkedin} className="bg-[#0077b5]/5 border-[#0077b5]/20">
+             <div className="text-xs text-[#0077b5] font-bold mb-2">LINKEDIN & SOSYAL AĞ</div>
+             <BulletPoint text="Showcase Vitrini: Fabrika sahasından profesyonel operasyon videoları." />
+             <BulletPoint text="Satış Ekibi Ağı: Personel profillerinin 'Vega Elçisi'ne dönüştürülmesi." />
+             <BulletPoint text="Güven Endeksi: Avrupalı alıcılar için şeffaf doğrulama." />
+          </CanvasCard>
+
+           <CanvasCard title="AI & GEO Optimizasyonu" icon={Cpu} className="border-purple-100 bg-purple-50/30">
+             <div className="text-xs text-purple-700 font-bold mb-2">YAPAY ZEKA GÖRÜNÜRLÜĞÜ</div>
+             <BulletPoint text="Schema Markup: Google'ın ürünleri 'anlamasını' sağlayan kodlama." />
+             <BulletPoint text="Entity Building: 'Güvenilir Üretici' etiketinin dijital inşası." />
+             <BulletPoint text="Sesli Arama: 'Siri, lowbed üreticisi bul' komutlarına uyum." />
+          </CanvasCard>
+
+          <CanvasCard title="Sprint Takvimi" icon={Calendar}>
+             <div className="space-y-3">
+               <div className="flex justify-between items-center text-xs border-b border-gray-100 pb-1">
+                 <span className="text-gray-500">Hafta 1-2</span>
+                 <span className="font-bold text-slate-800">Altyapı & Google WS</span>
+               </div>
+               <div className="flex justify-between items-center text-xs border-b border-gray-100 pb-1">
+                 <span className="text-gray-500">Hafta 3-4</span>
+                 <span className="font-bold text-slate-800">Tasarım & İçerik</span>
+               </div>
+               <div className="flex justify-between items-center text-xs">
+                 <span className="text-gray-500">Hafta 5-6</span>
+                 <span className="font-bold text-emerald-600">Test & Canlı Yayın</span>
+               </div>
+             </div>
+          </CanvasCard>
+
+          <CanvasCard title="Proje Çıktıları" icon={Award}>
+             <BulletPoint text="Sıfır Spam Riski" highlight={true} />
+             <BulletPoint text="Kurumsal Hafıza" highlight={true} />
+             <BulletPoint text="Yüksek Dönüşüm" highlight={true} />
+          </CanvasCard>
+
+        </div>
+
+        {/* --- FOOTER --- */}
+        <div className="md:col-span-12 mt-4">
+           <div className="bg-slate-900 rounded-[2rem] p-8 md:p-10 relative overflow-hidden group cursor-pointer shadow-2xl shadow-slate-900/40 hover:scale-[1.01] transition-transform">
+              <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
+                 <div>
+                    <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Geleceği İnşa Etmeye Hazırız.</h2>
+                    <p className="text-slate-400 max-w-xl text-sm md:text-base">
+                      Vega Trailer markasını, Semanur Ayyıldız'ın stratejik liderliğinde, hak ettiği global dijital standartlara taşıyın.
+                    </p>
+                 </div>
+                 <a 
+                   href="https://wa.me/905079448462?text=Merhaba,%20Vega%20Trailer%20dijital%20dönüşüm%20projesi%20için%20görüşmek%20istiyorum."
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   className="bg-red-600 hover:bg-red-500 text-white px-8 py-4 rounded-xl font-bold flex items-center gap-3 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-red-900/50"
+                 >
+                    Dönüşümü Başlat
+                    <ChevronRight className="w-5 h-5" />
+                 </a>
+              </div>
+              <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-red-600/20 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2"></div>
+           </div>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+export default VegaTrailerCanvas;
